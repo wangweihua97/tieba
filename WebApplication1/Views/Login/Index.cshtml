@@ -1,0 +1,60 @@
+﻿
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+<div style="text-align: center;position:relative;top:100px;color:#F00;font-size:50px;">登陆 </div>
+<div style="text-align: center;position:relative;top:200px;">
+
+    <form method="post" action='@Url.Content("~/Login/Index")'>
+        <div>
+            <input type="text" class="input-sm" name="username" placeholder="用户名" />
+        </div>
+        <div>
+            <input type="password" class="input-sm" name="password" placeholder="密码" />
+        </div>
+        <input type="text" class="input-sm" name="url" value="@ViewBag.Url" hidden="hidden" />
+        <input type="submit" class="btn btn-danger" value="立即提交" />
+    </form>
+    <button style="text-align: center;" class="btn btn-danger">注册</button>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("button").click(function () {
+            window.location.href = "@Url.Content("~/Register/Index")" ;
+        });
+    });
+   /*
+    $(function () {
+        $('#submit').click(function () {
+                var model = [];
+                $.each($("table tr"), function (i, item) {
+                    var Username = $(item).find("[name=username]").val();
+                    var Password = $(item).find("[name=password]").val();
+                    //var Url =ViewBag.Url;
+
+                    model.push({ username: Username, password: Password, url: Url });
+                                                         });
+                $.ajax({
+                    url: '/Login/Index',
+                    data: JSON.stringify(model),
+                    type: 'POST',
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    success: function (data) {
+                        //window.location.href = "/RequestStatus/RequestDetail?requestID=" + data.RequestID;
+                        alert("Postting data is over!");
+                                             }
+                      });
+            });
+    });
+    */
+function username_wrong()
+{
+alrer('账号错误');
+    }
+    function password_wrong() {
+        alrer('密码错误');
+    }
+</script>
+

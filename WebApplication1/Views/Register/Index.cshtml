@@ -1,0 +1,115 @@
+﻿
+@model WebApplication1.Models.User
+@Scripts.Render("~/Register/js")
+@Styles.Render("~/Register/css")
+<div style="text-align: center;position:relative;top:100px;color:#F00;font-size:50px;">注册 </div>
+
+<div style="text-align: center;top:200px;position: relative;">
+    <form action='@Url.Content("~/Register/Index")' method="post" enctype="multipart/form-data">
+        <div>
+            <input type="text" class="input-sm" name="username" placeholder="用户名：纯数字7-12位" />
+        </div>
+        <div>
+            <input type="text" class="input-sm" name="password" placeholder="密码：数字和字母7-20位" />
+        </div>
+        <div>
+            <input type="text" class="input-sm" name="uname" placeholder="昵称：支持汉字2-8位" />
+        </div>
+        <div>
+            <input type="text" class="demo-input" name="brith" placeholder="生日：YYYY-MM-DD" id="test1">
+        </div>
+        <div>
+            <input type="radio" name="sex" value="男" checked>男
+            <input type="radio" name="sex" value="女">女
+        </div>
+        <div>
+            <input type="file" style="position:relative;left:430px;" name="filename" id="file1" />
+        </div>
+        <div>
+            <input type="submit" value="提交" />
+        </div>
+    </form>
+    <div style="position:absolute;left:800px;top:20px;">
+        <fieldset>
+            <legend>头像预览</legend>
+            <img id="img1" src="" alt="" style="width:200px;height:200px;" />
+        </fieldset>
+    </div>
+</div>
+<!--
+@using (Ajax.BeginForm("Index", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "detailsID" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>user</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.sex, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sex, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.uname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.brith, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.brith, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.brith, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+        <div id="detailsID">ggggggggggg</div>
+    </div>
+}-->
+
+<script type="text/javascript">
+    $(function () {
+        $('#file1').on("change", function () {
+            var file = this.files[0];
+            if (this.files && file) {
+                var r = new FileReader();
+                r.onload = function (e) {
+                    $("#img1").attr("src", e.target.result);
+                }
+                r.readAsDataURL(file);
+            }
+        }
+        );
+    });
+    lay('#version').html('-v' + laydate.v);
+
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#test1' //指定元素
+    });
+    function username_wrong() {
+        alrer('账号错误');
+    }
+    function password_wrong() {
+        alrer('密码错误');
+    }
+</script>

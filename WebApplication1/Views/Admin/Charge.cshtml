@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Charge";
+}
+@Scripts.Render("~/Index/js")
+<style type="text/css">
+
+
+    .cs {
+        width: 400px;
+        height: 400px;
+        position: absolute;
+        background-color: beige;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>
+<div style="height:100px;">
+
+</div>
+<h2>管理</h2>
+<form id="form" style="text-align: center;" method="post" action='/Admin/Find'>
+    输入:<input type="text" name="txt" placeholder="输入内容" />
+    <select name="type">
+        <option value="uname">按昵称查找</option>
+        <option value="username">按用户名查找</option>
+    </select>
+    <input type="submit" value="查询"></input>
+</form>
+<table class="table">
+    <thead>
+    <th>
+        用户名
+    </th>
+    <th>昵称</th>
+    <th>
+        密码
+    </th>
+    <th>
+        生日
+    </th>
+    <th>
+        性别
+    </th>
+    <th>
+        操作
+    </th>
+
+
+    </thead>
+    @{
+        List<WebApplication1.Models.AUser> us = ViewData["data"] as List<WebApplication1.Models.AUser>;
+    }
+    @foreach (var item in us)
+    {
+        <tr>
+            <td>
+                @item.username
+            </td>
+            <td>
+                @item.uname
+            </td>
+            <td>
+                @item.password
+            </td>
+            <td>
+                @item.brith
+            </td>
+            <td>
+                @item.sex
+            </td>
+            <td>
+                <a href='@Url.Content("~/Admin/Delect?id="+item.id+"&name="+item.uname)'>删除</a>
+                <a id="change" onclick="show({id:'@item.id',username:'@item.username',uname:'@item.uname',password:'@item.password',brith:'@item.brith',sex:'@item.sex'})">编辑</a>
+            </td>
+        </tr>
+
+    }
+
+</table>
+<div class="cs" id="fm" style="display:none;">
+    <form id="cform" method="post" action='/Admin/Change'>
+        <input type="text" id="fid" name="id" hidden />
+        <div>
+            <input type="text" class="input-sm" name="username"  />
+        </div>
+        <div>
+            <input type="text" class="input-sm" name="password" placeholder="密码：数字和字母7-20位" />
+        </div>
+        <div>
+            <input type="text" class="input-sm" name="uname" placeholder="昵称：支持汉字2-8位" />
+        </div>
+        <div>
+            <input type="text" class="demo-input" name="brith" placeholder="生日：YYYY-MM-DD" id="test1">
+        </div>
+        <div>
+            <input type="radio" name="sex" value="男" checked>男
+            <input type="radio" name="sex" value="女">女
+        </div>
+        <input type="submit" class="btn btn-danger" value="确定修改">
+        <button id="close">取消</button>
+    </form>
+</div>
+<script type="text/javascript">
+    function show(user) {
+        
+        $("#fm").show();
+        $("input[name='id']").val(user["id"]);
+        $("input[name='username']").val(user["username"]);
+        $("input[name='password']").val(user["password"]) ;
+
+        $("input[name='uname']").val(user["uname"])  ;
+        $("input[name='brith']").val(user["brith"]) ;
+        $("input[name='sex'][value='" + user["sex"]+"']").attr("checked", true);
+    }
+    $("#close").click(function () {
+        $("#fm").hide();
+    });
+</script>
+

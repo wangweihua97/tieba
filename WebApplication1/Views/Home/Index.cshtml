@@ -1,0 +1,219 @@
+﻿@{
+    ViewData["Title"] = "话题评论";
+}
+@Scripts.Render("~/Index/js")
+<style>
+    /*翻页*/
+   
+    th{
+        height:80px;
+    }
+    td{
+        height: 60px;
+    }
+
+    .pagenation {
+        padding: 40px 30px 60px 500px;
+        color: #666;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        .pagenation .pagenum {
+            float: left;
+            min-width: 30px;
+            padding: 3px 5px;
+            text-align: center;
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 3px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+            .pagenation .pagenum.indexpage, .pagenation .pagenum.lastpage, .pagenation .pagenum.nextpage {
+                background: rgba(255,255,255,0);
+                color: #d9cfce;
+            }
+
+                .pagenation .pagenum.indexpage.active, .pagenation .pagenum.lastpage.active, .pagenation .pagenum.nextpage.active {
+                    background-color: #f5f5f5;
+                    color: #999;
+                }
+
+                    .pagenation .pagenum.indexpage.active a, .pagenation .pagenum.lastpage.active a, .pagenation .pagenum.nextpage.active a {
+                        color: #999;
+                    }
+
+            .pagenation .pagenum.pagetext, .pagenation .pagenum.totalpage {
+                border-radius: 0px;
+                background: rgba(255,255,255,0);
+                border: none;
+            }
+
+            .pagenation .pagenum a {
+                color: #999;
+                text-decoration: none;
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+        .pagenation .pageswiperbox {
+            min-width: 35px;
+            max-width: 175px;
+            overflow: hidden;
+            word-break: keep-all;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            float: left;
+        }
+
+        .pagenation .pageswiper {
+            width: auto;
+        }
+
+            .pagenation .pageswiper .pagenum {
+                display: inline-block;
+                float: none;
+            }
+
+        .pagenation .pagenum.curpage {
+            background: rgba(255,255,255,0);
+            color: #FE7200;
+            border: none;
+        }
+
+            .pagenation .pagenum.curpage a {
+                color: #FE7200;
+                display: block;
+                width: 100%;
+            }
+
+        .pagenation .pageinput {
+            text-align: center;
+            border: 1px solid #e5e5e5;
+            width: 40px;
+            margin: 0 3px;
+            line-height: 17px;
+            box-sizing: border-box;
+            vertical-align: top;
+        }
+
+        .pagenation .pagesubbtn {
+            background: rgba(255,255,255,0);
+        }
+
+            .pagenation .pagesubbtn a {
+                color: #d9cfce;
+            }
+
+            .pagenation .pagesubbtn.active {
+                background: #f5f5f5;
+            }
+
+            .pagenation .pagesubbtn a {
+                color: #999;
+            }
+</style>
+<div style="height:100px;">
+
+</div>
+<table id="pageBox" position:absolute;top:300px;>
+    <thead>
+    <th style="width:200px">
+        时间
+    </th>
+    <th style="width:1000px">标题</thstyle="width:200px">
+    <th style="width:100px">
+    </th>
+    <th style="width:200px">
+        发帖人
+    </th>
+
+    </thead>
+    @{
+
+        List<WebApplication1.Models.Lytable> lylist = ViewData["data"] as List<WebApplication1.Models.Lytable>;
+        int len = lylist.Count();
+        int cout = 1;
+        string datas = "";
+        for (int i = 0; i < len; i++)
+        {
+            if (i == len - 1)
+            {
+                datas += "{id:\"" + lylist[i].id.ToString() + "\"," + "title:\"" + lylist[i].head_txt + "\"," + "time:\"" + lylist[i].time + "\"," + "name:\"" + lylist[i].username + "\"," + "img:\"" + lylist[i].img + "\"}";
+            }
+            else
+            {
+                datas += "{id:\"" + lylist[i].id.ToString() + "\"," + "title:\"" + lylist[i].head_txt + "\"," + "time:\"" + lylist[i].time + "\"," + "name:\"" + lylist[i].username + "\"," + "img:\"" + lylist[i].img + "\"},";
+            }
+        }
+    }
+
+</table>
+<br />
+<tr>
+    <form style="text-align: center;" method="get" action='@Url.Content("~/AddTitle/Index")'>
+        <input type="submit" class="btn btn-danger" value="发帖" />
+    </form>
+    <form style="text-align: center;" method="post" action='@Url.Content("~/Login/LogOff")'>
+        <input type="submit" class="btn btn-danger" value="退出登陆" />
+    </form>
+</tr>
+<script type="text/javascript">
+    @Html.Raw("var table = ["+ @datas+"]");
+    @while (cout <= 10 && cout <= len)
+    {
+        @Html.Raw("$(\"#pageBox\").append(\"<tr class='list'><td>" + @lylist[cout - 1].time + "</td><td><a href='/Comment/Index?tid=" + @lylist[cout - 1].id + "'>" + @lylist[cout - 1].head_txt + "</a></td> <td>" + "<img style='width:80px;height:80px;'src='" + @lylist[cout - 1].img + "'/></td><td> " + @lylist[cout - 1].username + "</td> </tr>\");");
+        cout++;
+    }
+
+    var options = {
+        list: ".list",//列表标识
+        currentPage: 1,//初始页（选传，默 认1）
+        pageSize: 10,//每页列表数
+        listTotal: @len,//列表总数（选传），不传为list总数
+        callback: function (currentPage) {//翻页回调（可填，可做ajax请求）,不传为纯html切换
+            loadData(ajaxDemo(currentPage))
+        }
+    }
+
+    $("#pageBox").paging(options)
+    function ajaxDemo(page, pageSize) {
+        if (!pageSize) var pageSize = 10;
+        var data = [], arr = [];
+        for (var i = 1; i <= @len; i++) {
+            arr.push(table[i - 1]);
+            if (i < 10 && i ==@len)
+            {
+                data[1] = arr;
+                arr = [];
+            }
+            @for(int i=1;i<=len/10;i++)
+            {
+                @Html.Raw("if(i=="+ i.ToString()+"*10){  data[" +i.ToString()+"] = arr; arr =[];}");
+                if (i == len / 10)
+                {
+                    @Html.Raw("if(i==" + len.ToString() + "&&i!="+(i*10).ToString() + "){  data[" + (i+1).ToString() + "] = arr; arr =[];}");
+                    }
+            }
+                    }
+        return data[page];
+    }
+                function loadData(data) {
+                    console.log("callback")
+                    $("#pageBox").empty();
+                    $("#pageBox").append("<thead><th style=\"width:200px\">时间 </th> <th style=\"width:1000px\">标题</thstyle=\"width:200px\"><th style=\"width:100px\"></th><th style=\"width:200px\">发帖人 </th> </thead>");
+
+                    for (var i = 0; i < data.length; i++) {
+                        $("#pageBox").append("<tr class='list'><td>" + data[i]["time"] + "</td><td><a href='/Comment/Index?tid=" + data[i]["id"] + "'>" + data[i]["title"] + "</a></td> <td>" + "<img style='width:80px;height:80px;'src='" + data[i]["img"]+"'/></td> "+"<td>"+data[i]["name"] + "</td> </tr>");
+        }
+    }
+</script>

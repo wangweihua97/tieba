@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@Scripts.Render("~/Register/js")
+<h2>Index</h2>
+<div style="height:100px;">
+
+</div>
+<form style="text-align: center;" method="post" action='@Url.Content("~/AddTitle/Index")'>
+    <div>
+        标题：<input style="width:500px;height:100px;" type="text" class="input-sm" name="title" placeholder="请输入标题" />
+    </div>
+    <div>
+        内容： <input style="width:500px;height:300px;" type="text" class="input-sm" name="text" placeholder="请输入内容" />
+    </div>
+
+    <input type="submit" class="btn btn-danger" value="提交帖子">
+</form>
+<button style="text-align: center;" class="btn btn-danger">返回</button>
+<script type="text/javascript">
+    $(function () {
+        $("button").click(function () {
+            window.location.href = "@Url.Content("~/Home/Index")" ;
+        });
+    });
+</script>

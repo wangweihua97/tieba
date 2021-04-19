@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
 {
     public class RegisterController : Controller
     {
-        string mysqlconnstr = "server=127.0.0.1;user id=root;database=lydb;password=w348031705;sslmode=None;charset=utf8";
+        string mysqlconnstr = "server=127.0.0.1;user id=root;database=lydb;password=w348031705;sslmode=None;charset=utf8;allowPublicKeyRetrieval=true";
         // GET: Register
         public ActionResult Index()
         {
